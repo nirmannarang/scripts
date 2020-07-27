@@ -3,13 +3,13 @@
 # LICENSE: Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
 #
 # Instructions:
-# Download build script: wget https://raw.githubusercontent.com/linux-on-ibm-z/scripts/master/SonarQube/8.4/build_sonarqube.sh
+# Download build script: wget https://raw.githubusercontent.com/linux-on-ibm-z/scripts/master/SonarQube/8.4.1/build_sonarqube.sh
 # Execute build script: bash build_sonarqube.sh    (provide -h for help)
 
 set -e -o pipefail
 
 PACKAGE_NAME="sonarqube"
-PACKAGE_VERSION="8.4.0.35506"
+PACKAGE_VERSION="8.4.1.35646"
 SCANNER_VERSION="4.4.0.2170"
 
 SOURCE_ROOT="$(pwd)"
@@ -44,27 +44,6 @@ function prepare() {
     then
         printf --  "$JAVA_PROVIDED is not supported, Please use valid java from {AdoptJDK11, OpenJDK} only." |& tee -a "$LOG_FILE"
         exit 1
-    fi
-
-    if [[ "$JAVA_PROVIDED" == "OpenJDK" ]];
-    then
-        if [[ "$ID-$VERSION_ID" == "ubuntu-16.04" ]];
-        then
-            printf --  "OpenJDK is not supported on $ID-$VERSION_ID.\n" |& tee -a "$LOG_FILE"
-
-            while true; do
-                read -r -p "Do you want to build with AdoptJDK11 (y/n) ? :  " yn
-                case $yn in
-                [Yy]*)
-                    JAVA_PROVIDED="AdoptJDK11"
-                    printf -- 'SonarQube will be built with AdoptOpenJDK11. \n' >>"$LOG_FILE" |& tee -a "$LOG_FILE"
-                    break
-                    ;;
-                [Nn]*) exit ;;
-                *) echo "Please provide confirmation to proceed." ;;
-                esac
-            done
-        fi
     fi
 
     if [[ "$FORCE" == "true" ]]; then
@@ -295,7 +274,7 @@ prepare #Check Prequisites
 DISTRO="$ID-$VERSION_ID"
 
 case "$DISTRO" in
-"ubuntu-16.04" | "ubuntu-18.04" | "ubuntu-20.04")
+"ubuntu-18.04" | "ubuntu-20.04")
     printf -- "Installing %s %s for %s \n" "$PACKAGE_NAME" "$PACKAGE_VERSION" "$DISTRO" |& tee -a "$LOG_FILE"
     printf -- "Installing dependencies... it may take some time.\n"
     sudo apt-get update
