@@ -189,9 +189,9 @@ function runTest() {
 		fi
 
         cd "$SOURCE_ROOT"
-        wget https://nodejs.org/dist/latest-v10.x/node-v10.21.0-linux-s390x.tar.xz
-        chmod ugo+r node-v10.21.0-linux-s390x.tar.xz
-        sudo tar -C /usr/local -xf node-v10.21.0-linux-s390x.tar.xz
+	wget https://nodejs.org/dist/v10.21.0/node-v10.21.0-linux-s390x.tar.gz
+        chmod ugo+r node-v10.21.0-linux-s390x.tar.gz
+        sudo tar -C /usr/local -xf node-v10.21.0-linux-s390x.tar.gz
 		export PATH=$PATH:/usr/local/node-v10.21.0-linux-s390x/bin
 		node -v
         
