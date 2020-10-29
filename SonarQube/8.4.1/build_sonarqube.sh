@@ -95,7 +95,7 @@ function configureAndInstall() {
             export JAVA_HOME=/usr/lib64/jvm/java-11-openjdk
             printf -- 'export JAVA_HOME=/usr/lib64/jvm/java-11-openjdk\n'  >> "$BUILD_ENV"
         else
-            if [[ "$VERSION_ID" == "20.04" || "$VERSION_ID" == "18.04" ]]; then
+            if [[ "$VERSION_ID" == "20.04" || "$VERSION_ID" == "18.04" || "$VERSION_ID" == "20.10" ]]; then
                 sudo apt-get install -y openjdk-11-jdk
                 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-s390x
                 printf -- 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-s390x\n'  >> "$BUILD_ENV"
@@ -274,14 +274,14 @@ prepare #Check Prequisites
 DISTRO="$ID-$VERSION_ID"
 
 case "$DISTRO" in
-"ubuntu-18.04" | "ubuntu-20.04")
+"ubuntu-18.04" | "ubuntu-20.04" | "ubuntu-20.10")
     printf -- "Installing %s %s for %s \n" "$PACKAGE_NAME" "$PACKAGE_VERSION" "$DISTRO" |& tee -a "$LOG_FILE"
     printf -- "Installing dependencies... it may take some time.\n"
     sudo apt-get update
     sudo apt-get install -y wget git unzip tar curl |& tee -a "$LOG_FILE"
     configureAndInstall |& tee -a "$LOG_FILE"
     ;;
-"rhel-7.6" | "rhel-7.7" | "rhel-7.8" | "rhel-8.1" | "rhel-8.2")
+"rhel-7.7" | "rhel-7.8" | "rhel-7.9" | "rhel-8.1" | "rhel-8.2")
     printf -- "Installing %s %s for %s \n" "$PACKAGE_NAME" "$PACKAGE_VERSION" "$DISTRO" |& tee -a "$LOG_FILE"
     printf -- "Installing dependencies... it may take some time.\n"
     sudo yum install -y git wget unzip tar which curl net-tools xz |& tee -a "$LOG_FILE"
